@@ -7,10 +7,9 @@ from tensorflow.keras.layers import Dense, Flatten
 data = np.load('pong_data.npy')
 labels = np.load('pong_labels.npy')
 
-# Define the model
+# Create the model
 model = Sequential([
     Flatten(input_shape=(5,)),  # Input: ball_x, ball_y, ball_speed_x, ball_speed_y, paddle_y
-    Dense(24, activation='relu'),
     Dense(24, activation='relu'),
     Dense(3, activation='softmax')  # Output: up, down, stay
 ])
@@ -21,4 +20,4 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 model.fit(data, labels, epochs=1000)
 
 # Save the model
-model.save('pong_ai_model.h5')
+model.save('pong_ai_model2.h5')
