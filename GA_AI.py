@@ -16,12 +16,11 @@ def create_model():
     model = Sequential([
         Flatten(input_shape=(5,)),  # Input: ball_x, ball_y, ball_speed_x, ball_speed_y, paddle_y
         Dense(24, activation='relu'),  # Increased neurons for better learning
-        Dense(2, activation='softmax')  # Output: up, down, stay
+        Dense(2, activation='softmax')  # Output: up, down
     ])
     return model
 
 # Function to initialize a population of models with random initial weights
-# Function to initialize a population of models with more randomized initial weights
 def initialize_population(pop_size):
     population = []
     for _ in range(pop_size):
@@ -31,15 +30,10 @@ def initialize_population(pop_size):
         # Randomly initialize weights and biases for each Dense layer
         for layer in model.layers:
             if isinstance(layer, Dense):
-                # Get the current weights (weights[0]) and biases (weights[1])
                 weights = layer.get_weights()
-
-                # Randomize weights and biases using a uniform distribution
-                weights[0] = np.random.uniform(-1.0, 1.0, size=weights[0].shape)  # Random weights between -1 and 1
-                weights[1] = np.random.uniform(-1.0, 1.0, size=weights[1].shape)  # Random biases between -1 and 1
-
-                # Set the new weights and biases to the layer
-                layer.set_weights([weights[0], weights[1]])  # This expects a list of weights and biases
+                weights[0] = np.random.uniform(-1.0, 1.0, size=weights[0].shape)  # Random weights
+                weights[1] = np.random.uniform(-1.0, 1.0, size=weights[1].shape)  # Random biases
+                layer.set_weights([weights[0], weights[1]])
 
         population.append(model)
     return population
@@ -60,21 +54,19 @@ class Paddle(pygame.sprite.Sprite):
     def update(self, keys, up_key=None, down_key=None, ball=None):
         if self.ai and ball:
             # Get the current state (5 inputs: ball_x, ball_y, ball_speed_x, ball_speed_y, paddle_y)
-            state = np.array([ball.rect.x / 800, ball.rect.y / 600, ball.speed_x / 5, ball.speed_y / 5, self.rect.y / 600])
+            state = np.array([ball.rect.x / 800, ball.rect.y / 600, ball.speed_x / abs(ball.speed_x), ball.speed_y / abs(ball.speed_y), self.rect.y / 600])
             state = state.reshape(1, 5)
 
-            # Debug: Print the action, probabilities, and state for verification
-            print(f"State: {state}")
-            probabilities = (self.model.predict(state))
-            print(f"Probabilities: {probabilities}")
+            probabilities = self.model.predict(state)
             action = np.argmax(probabilities)
-        
-            print(f"Action: {action}")
 
-            # Move paddle based on action
-            if action == 0:
+            # Debugging action output
+            print(f"State: {state}, Probabilities: {probabilities}, Action: {action}")
+
+            # Move paddle based on action: 0 - up, 1 - down
+            if action == 0:  # Move up
                 self.rect.y -= self.speed
-            elif action == 1:
+            elif action == 1:  # Move down
                 self.rect.y += self.speed
         else:
             if keys[up_key]:
@@ -155,7 +147,7 @@ def evaluate_fitness(model, generation, model_count):
             ball.speed_x = -ball.speed_x
             left_bounces += 1  # Increment the number of bounces when the left paddle hits the ball
 
-        # Handle ball going out of bounds (not needed for fitness but resets ball position)
+        # Handle ball going out of bounds
         if out_of_bounds == "left":
             ball.reset()
         elif out_of_bounds == "right":
