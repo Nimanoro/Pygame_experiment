@@ -11,7 +11,7 @@ pygame.font.init()
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 # Load the trained model
-model = load_model('pong_ai_model2.h5')
+model = load_model('pong_ai_model.h5')
 
 class Paddle(pygame.sprite.Sprite):
     def __init__(self, x_pos, ai=False, model=None):

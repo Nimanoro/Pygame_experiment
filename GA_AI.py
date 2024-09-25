@@ -114,9 +114,14 @@ class Ball(pygame.sprite.Sprite):
         return None
 
     def reset(self):
-        self.rect.center = (400, 300)
+        self.rect.center = (400, random.randint(0, 600))
         self.speed_x = -self.insp_x  # Change ball direction
-        self.speed_y = 5 if self.speed_y > 0 else -5
+        m = random.randint(0, 1)
+        if m == 0:
+            self.speed_y = 5 
+        else:
+            self.speed_y = -5
+
         self.bounce_count = 0
 
     def increase_speed(self):
@@ -193,6 +198,7 @@ def evaluate_fitness(model_weights, generation, model_count):
         model_text = font.render(f"Models Trained: {model_count + 1}", True, (255, 255, 255))  # WHITE color
         screen.blit(model_text, (10, 50))
         fitness_text = font.render(f"Fitness: {left_bounces}", True, (255, 255, 255))  # WHITE color
+        screen.blit(fitness_text, (10, 90))
 
         pygame.display.flip()
         clock.tick(60)
