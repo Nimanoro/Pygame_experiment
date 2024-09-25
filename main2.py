@@ -14,7 +14,7 @@ WHITE = (255, 255, 255)
 model = load_model('pong_ai_model2.h5')
 
 class Paddle(pygame.sprite.Sprite):
-    def __init__(self, x_pos, ai=False):
+    def __init__(self, x_pos, ai=False, model=None):
         super().__init__()
         self.image = pygame.Surface((10, 100))
         self.image.fill(WHITE)
@@ -23,6 +23,7 @@ class Paddle(pygame.sprite.Sprite):
         self.rect.y = 250
         self.speed = 5
         self.ai = ai
+        self.model = model
 
     def update(self, keys, up_key=None, down_key=None, ball=None):
         if self.ai and ball:
@@ -31,7 +32,7 @@ class Paddle(pygame.sprite.Sprite):
             state = state.reshape(1, 5)
 
             # Predict action
-            action = np.argmax(model.predict(state))
+            action = np.argmax(self.model.predict(state))
 
             # Move the paddle based on the action
             if action == 0:
@@ -97,7 +98,7 @@ class Ball(pygame.sprite.Sprite):
 
 # Create the paddles and ball
 left_paddle = Paddle(30)
-right_paddle = Paddle(760, ai=True)  # Right paddle with AI
+right_paddle = Paddle(760, ai=True, model = model)  # Right paddle with AI
 ball = Ball()
 
 all_sprites = pygame.sprite.Group()

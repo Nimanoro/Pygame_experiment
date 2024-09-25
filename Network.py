@@ -19,7 +19,7 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 
 # Train the model
 
-model.fit(data, labels, epochs=500)
+model.fit(data, labels, epochs=750)
 
 # Save the model
 model.save('pong_ai_model2.h5')
