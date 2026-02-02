@@ -75,9 +75,14 @@ Over time, agents learn to track the ball and return it more consistently.
 
 Install dependencies:
 pip install pygame numpy tensorflow
+
 Running the project
+
 Run the game:
+
 python main.py
+
 Run the genetic algorithm training loop (if separate):
+
 python GA_AI.py
 
