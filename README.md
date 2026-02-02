@@ -55,6 +55,8 @@ Over time, agents learn to track the ball and return it more consistently.
 (Filenames may vary slightly depending on experiment state.)
 
 ---
+![Pong AI gameplay](images/pong_genetics.png)
+
 
 ## Setup
 
