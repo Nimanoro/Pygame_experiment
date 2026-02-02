@@ -43,19 +43,26 @@ Over time, agents learn to track the ball and return it more consistently.
 
 .
 ├── GA_AI.py # Genetic algorithm logic (selection, mutation, evolution)
+
 ├── Network.py # Neural network definition and inference
+
 ├── main.py / pong.py # Game loop and simulation logic
+
 ├── *.h5 # Saved neural network models
+
 ├── pong_data.npy # Training inputs
+
 ├── pong_labels.npy # Training labels / outcomes
+
 ├── requirements.txt # Dependencies (if present)
+
 └── README.md
 
 
 (Filenames may vary slightly depending on experiment state.)
 
 ---
-![Pong AI gameplay](images/pong_genetics.png)
+![Pong AI gameplay](pong_genetics.png)
 
 
 ## Setup
